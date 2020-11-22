@@ -1,0 +1,31 @@
+version: "3.7"
+
+services:
+  master:
+    image: mariadb:10.5
+    environment:
+      MYSQL_ROOT_PASSWORD: 111
+    volumes:
+      - ./master/data:/var/lib/mysql
+      - ./backups:/backups
+      - ./config/master.cnf:/etc/mysql/mariadb.conf.d/master.cnf
+      - ./scripts:/scripts
+    networks:
+      - overlay
+
+  slave:
+    image: mariadb:10.5
+    environment:
+      MYSQL_ROOT_PASSWORD: 111
+    depends_on:
+      - master
+    volumes:
+      - ./slave/data:/var/lib/mysql
+      - ./backups:/backups
+      - ./config/slave.cnf:/etc/mysql/mariadb.conf.d/slave.cnf
+      - ./scripts:/scripts
+    networks:
+      - overlay
+
+networks:
+  overlay:
