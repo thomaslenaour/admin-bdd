@@ -1,31 +1,36 @@
-version: "3.7"
+version: '3.7'
 
 services:
   master:
     image: mariadb:10.5
     environment:
-      MYSQL_ROOT_PASSWORD: 111
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - 4406:3306
     volumes:
       - ./master/data:/var/lib/mysql
       - ./backups:/backups
-      - ./config/master.cnf:/etc/mysql/mariadb.conf.d/master.cnf
+      - ./master/master.cnf:/etc/mysql/mariadb.conf.d/master.cnf
       - ./scripts:/scripts
     networks:
-      - overlay
+      - myNetwork
 
   slave:
     image: mariadb:10.5
     environment:
-      MYSQL_ROOT_PASSWORD: 111
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - 5506:3306
     depends_on:
       - master
     volumes:
       - ./slave/data:/var/lib/mysql
       - ./backups:/backups
-      - ./config/slave.cnf:/etc/mysql/mariadb.conf.d/slave.cnf
+      - ./slave/slave.cnf:/etc/mysql/mariadb.conf.d/slave.cnf
       - ./scripts:/scripts
     networks:
-      - overlay
+      - myNetwork
 
 networks:
-  overlay:
+  myNetwork:
+    driver: bridge
