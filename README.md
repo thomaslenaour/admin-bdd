@@ -9,6 +9,3 @@ Rendu **Thomas Le Naour** - Bordeaux Ynov Campus - B3C
 - [TP 5](./tp5)
 - [TP 6](./tp6)
 - [TP 7](./tp7)
-- [TP 8](./tp8)
-- [TP 9](./tp9)
-- [TP 10](./tp10)
